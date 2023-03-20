@@ -1,0 +1,16 @@
+{
+  "version": "0.0.0",
+  "main": "index.js",
+  "author": "Inaridiy <inainainariinainari@gmail.com>",
+  "license": "MIT",
+  "packageManager": "yarn@3.5.0",
+  "workspaces": [
+    "gpt-as-api",
+    "demo"
+  ],
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20230307.0",
+    "typescript": "^5.0.2",
+    "wrangler": "^2.12.3"
+  }
+}

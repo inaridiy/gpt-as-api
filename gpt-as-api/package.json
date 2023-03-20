@@ -1,0 +1,18 @@
+{
+  "name": "gpt-as-api",
+  "version": "0.0.0",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "module": "src/index.ts",
+  "author": "Inaridiy <inainainariinainari@gmail.com>",
+  "license": "MIT",
+  "packageManager": "yarn@3.5.0",
+  "peerDependencies": {
+    "hono": "^3.1.1",
+    "openai": "^3.2.1"
+  },
+  "dependencies": {
+    "hono": "^3.1.1",
+    "openai": "^3.2.1"
+  }
+}
