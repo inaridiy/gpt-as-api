@@ -65,8 +65,9 @@ export const initGenerator = (opt: LLMOptions): GenerateLLMHandler => {
 };
 
 export const initChatGptGenerator = (
-  opt: Omit<LLMOptions, "llm"> & { model?: string } = {}
+  prompt: string,
+  opt: Omit<LLMOptions, "llm" | "prompt"> & { model?: string } = {}
 ): GenerateLLMHandler => {
   const llm = new OpenAIChat({ model: opt.model || "gpt-3.5-turbo" });
-  return initGenerator({ ...opt, llm });
+  return initGenerator({ ...opt, prompt, llm });
 };

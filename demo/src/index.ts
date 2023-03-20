@@ -2,10 +2,9 @@ import { initChatGptGenerator } from "gpt-as-api";
 import { Hono } from "hono";
 import { cache } from "hono/cache";
 
-const gpt = initChatGptGenerator({
-  prompt:
-    "これからTODOアプリとしてふるまってください。\nTODOは作成者と名前と達成済みかの情報を持っています。\n今からリクエストを行うので、そのアプリレスポンスを次の指示に従って返却してください。\n\n{{Domain}}",
-});
+const gpt = initChatGptGenerator(
+  "Please behave as a TODO app from now on.\nI am sending the request to you now, please follow these instructions to get a response back.\n\n{{Domain}}"
+);
 const app = new Hono();
 
 app.get(
@@ -16,7 +15,10 @@ app.get(
   })
 );
 
-app.get("/", gpt("TODOアプリのフロントエンドをHTMLで適切に返してください。", "html"));
-app.all("/api/*", gpt("TODOアプリのAPIとしてレスポンスをJSONで返してください。", "json"));
+app.get(
+  "/",
+  gpt("Please return the page with appropriate HTML to allow management of the TODO.", "html")
+);
+app.all("/api/*", gpt("Return the response in JSON as the API for TODO.", "json"));
 
 export default app;
