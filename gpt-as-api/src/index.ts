@@ -2,6 +2,7 @@ import { Context } from "hono";
 import { SupportedLLM } from "./llms";
 import { OpenAIChat } from "./llms/openai";
 import { Tool } from "./tools/Tool";
+import { extractHTML, extractJSON } from "./utils";
 
 export interface LLMOptions {
   llm: SupportedLLM;
@@ -9,23 +10,14 @@ export interface LLMOptions {
   tools?: Tool[];
 }
 
-export type GenerateLLMHandler = (prompt: string) => (c: Context) => Promise<Response>;
-
-const extractJSON = (input: string) => {
-  const jsonRegex = /{(?:[^{}]|{(?:[^{}]|{[^{}]*})*})*}/g;
-  const jsonMatches = input.match(jsonRegex);
-
-  if (!jsonMatches) {
-    throw new Error("No JSON found in the input string.");
-  }
-
-  const jsonArray = jsonMatches.map((jsonString) => JSON.parse(jsonString));
-  return jsonArray.length === 1 ? jsonArray[0] : jsonArray;
-};
+export type GenerateLLMHandler = (
+  prompt: string,
+  type?: "json" | "html" | string
+) => (c: Context) => Promise<Response>;
 
 export const initGenerator = (opt: LLMOptions): GenerateLLMHandler => {
   const { llm, prompt = "{{Domain}}", tools = [] } = opt;
-  return (domainPrompt: string) =>
+  return (domainPrompt: string, type: "json" | "html" | string = "json") =>
     async <T extends { Bindings: { OPENAI_API_KEY: string } }>(c: Context<T>) => {
       const [path, query, body, headers] = [
         c.req.path,
@@ -53,7 +45,15 @@ export const initGenerator = (opt: LLMOptions): GenerateLLMHandler => {
     `;
 
       const res = await llm.call({ apiKey: c.env.OPENAI_API_KEY, prompt: finalPrompt });
-      return c.json(extractJSON(res));
+      if (type === "json") {
+        const json = extractJSON(res);
+        return c.json(json);
+      } else if (type === "html") {
+        const html = extractHTML(res);
+        return c.html(html);
+      } else {
+        return c.text(res);
+      }
     };
 };
 

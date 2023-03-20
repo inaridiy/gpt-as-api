@@ -13,6 +13,10 @@
   },
   "dependencies": {
     "hono": "^3.1.1",
-    "openai": "^3.2.1"
+    "openai": "^3.2.1",
+    "ramda": "^0.28.0"
+  },
+  "devDependencies": {
+    "@types/ramda": "^0.28.23"
   }
 }

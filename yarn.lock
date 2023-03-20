@@ -454,6 +454,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/ramda@npm:^0.28.23":
+  version: 0.28.23
+  resolution: "@types/ramda@npm:0.28.23"
+  dependencies:
+    ts-toolbelt: ^6.15.1
+  checksum: 61d7416c0f4f189c6524e093c7546ca2f159553e54d7933836d46aac1332611aa7b02fd8c8bfa98c0865f262fd9e99e06e3d9538deba0bab1f6153cbcf841160
+  languageName: node
+  linkType: hard
+
 "@types/stack-trace@npm:0.0.29":
   version: 0.0.29
   resolution: "@types/stack-trace@npm:0.0.29"
@@ -769,7 +778,9 @@ __metadata:
   resolution: "demo@workspace:demo"
   dependencies:
     "@cloudflare/workers-types": ^4.20230307.0
+    "@types/ramda": ^0.28.23
     gpt-as-api: "workspace:^"
+    ramda: ^0.28.0
     typescript: ^5.0.2
     wrangler: ^2.12.3
   languageName: unknown
@@ -1055,8 +1066,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "gpt-as-api@workspace:gpt-as-api"
   dependencies:
+    "@types/ramda": ^0.28.23
     hono: ^3.1.1
     openai: ^3.2.1
+    ramda: ^0.28.0
   peerDependencies:
     hono: ^3.1.1
     openai: ^3.2.1
@@ -1703,6 +1716,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ramda@npm:^0.28.0":
+  version: 0.28.0
+  resolution: "ramda@npm:0.28.0"
+  checksum: 44ea6e5010bba70151b6a92d8114a91915e8b5a16105cce65fae58c9d7386b812c429645e35f21141d7087568550ce383bc10ee1a65cdec951f4b69ea457e6a4
+  languageName: node
+  linkType: hard
+
 "readable-stream@npm:^3.6.0":
   version: 3.6.2
   resolution: "readable-stream@npm:3.6.2"
@@ -1996,6 +2016,13 @@ __metadata:
   dependencies:
     is-number: ^7.0.0
   checksum: f76fa01b3d5be85db6a2a143e24df9f60dd047d151062d0ba3df62953f2f697b16fe5dad9b0ac6191c7efc7b1d9dcaa4b768174b7b29da89d4428e64bc0a20ed
+  languageName: node
+  linkType: hard
+
+"ts-toolbelt@npm:^6.15.1":
+  version: 6.15.5
+  resolution: "ts-toolbelt@npm:6.15.5"
+  checksum: 24ad00cfd9ce735c76c873a9b1347eac475b94e39ebbdf100c9019dce88dd5f4babed52884cf82bb456a38c28edd0099ab6f704b84b2e5e034852b618472c1f3
   languageName: node
   linkType: hard
 

@@ -1,4 +1,4 @@
-import { ChatCompletionResponseMessage, Configuration, OpenAIApi } from "openai";
+import { ChatCompletionResponseMessage } from "openai";
 import { LLMChat, Message } from "./LLM";
 
 export class OpenAIChat extends LLMChat {
@@ -17,7 +17,6 @@ export class OpenAIChat extends LLMChat {
   }
 
   async respond(call: { apiKey: string; messages: Message[] }): Promise<string> {
-    const openai = new OpenAIApi(new Configuration({ apiKey: call.apiKey }));
     const res = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
