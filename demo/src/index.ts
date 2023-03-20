@@ -1,18 +1,13 @@
-import { createMockSimpleGptHandler } from "gpt-as-api";
+import { initChatGptGenerator } from "gpt-as-api";
 import { Hono } from "hono";
 
-const gpt = createMockSimpleGptHandler(
-  "Please act as a TODO app from now on. I am now going to present you with a request, s please return its response according to the following instructions.\n\n{{httpReqString}}"
-);
+const gpt = initChatGptGenerator({
+  prompt:
+    "これからTODOアプリとしてふるまってください。\n今からリクエストを行うので、そのアプリレスポンスを次の指示に従って返却してください。\n\n{{Domain}}",
+});
 const app = new Hono();
 
-app.get(
-  "/*",
-  gpt(
-    "Return the front end of the TODO application in HTML that can be executed as-is in the browser.",
-    "html"
-  )
-);
-app.all("/api/*", gpt("Return the response in JSON as the API for the TODO app.", "json"));
+app.get("/", gpt("TODOアプリのフロントエンドをHTMLで適切に返してください。", "html"));
+app.all("/api/*", gpt("TODOアプリのAPIとしてレスポンスをJSONで返してください。", "json"));
 
 export default app;
