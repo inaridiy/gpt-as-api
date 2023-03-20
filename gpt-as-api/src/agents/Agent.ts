@@ -33,19 +33,33 @@ export abstract class Agent<T = any> {
     this.maxSteps = opt.maxSteps || 3;
   }
 
-  abstract createPrompt(prompt: string, steps: AgentStep[]): Promise<string>;
+  abstract createPrompt(prompt: string, httpReqString: string, steps: AgentStep[]): Promise<string>;
 
-  abstract parseResponse(prompt: string, response: string): Promise<AgentRequestedAction[]>;
+  abstract parseResponse(
+    prompt: string,
+    httpReqString: string,
+    response: string
+  ): Promise<AgentRequestedAction[]>;
 
-  abstract isStepComplete(prompt: string, response: string): Promise<boolean>;
+  abstract isStepComplete(
+    prompt: string,
+    httpReqString: string,
+    response: string
+  ): Promise<boolean>;
 
-  async execute(opt: { apiKey: string; prompt: string; env: T }): Promise<string> {
+  async execute(opt: {
+    apiKey: string;
+    prompt: string;
+    httpReqString: string;
+    env: T;
+  }): Promise<string> {
     let steps: AgentStep[] = [];
     for (let i = 0; i < this.maxSteps; i++) {
       await Promise.all(this.tools.map((tool) => tool.init(opt.env)));
-      const callPrompt = await this.createPrompt(opt.prompt, steps);
+      const callPrompt = await this.createPrompt(opt.prompt, opt.httpReqString, steps);
+
       const response = await this.llm.call({ apiKey: opt.apiKey, prompt: callPrompt });
-      const actions = await this.parseResponse(callPrompt, response);
+      const actions = await this.parseResponse(callPrompt, opt.httpReqString, response);
       const toolOutputs = await Promise.resolve(actions)
         .then((actions) =>
           actions.map(async (action) => {
@@ -63,7 +77,7 @@ export abstract class Agent<T = any> {
         actions: toolOutputs,
       } satisfies AgentStep);
 
-      if (await this.isStepComplete(callPrompt, response)) {
+      if (await this.isStepComplete(callPrompt, opt.httpReqString, response)) {
         return response;
       }
     }

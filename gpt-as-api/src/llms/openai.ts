@@ -38,6 +38,7 @@ export class OpenAIChat extends LLMChat {
         choices: { message: ChatCompletionResponseMessage }[];
       }>()
     );
+    console.log(res.choices[0].message?.content);
 
     return res.choices[0].message?.content || "";
   }
